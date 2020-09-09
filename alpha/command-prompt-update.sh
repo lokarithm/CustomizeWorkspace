@@ -4,22 +4,20 @@
 
 function updateCommandPrompt() {
     echo "what do you want to display? e.g. 😆> "
-    invalidCharacters="\E"
 
     while true; do
         printf ">"
         read promptText
         if [ -z "$promptText" ]; then
             echo "Don't leave the input blank, try again:"
-        # elif [[ "$promptText" =~ *."$invalidCharacters".* ]]; then
-        #     echo "Invalid characters are not allowed"
         else
             break
         fi
     done
 
-    # TODO: sanitize input
-    #promptText= "echo ${promptText} | tr '^' ''"
+    invalidCharacters="\!\#\^\[\]\`\'\"\*\%\;\=\&"
+    # sanitize input
+    promptText=${promptText//[$invalidCharacters]/''}
 
     printf "Is it okay to change command prompt to: $promptText?[y/n]"
 
